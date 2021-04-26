@@ -4,11 +4,8 @@ import UIKit
 class PokeDexCollectionView: UICollectionView {    
     init() {
         super.init(frame: UIScreen.main.bounds, collectionViewLayout: UICollectionViewFlowLayout())
-                
-        self.register(PokemonListCollectionViewCell.self, forCellWithReuseIdentifier: PokemonListCollectionViewCell.identifier)
-        
+        self.register(cellType: PokemonListCollectionViewCell.self)
         self.delegate = self
-
         self.backgroundColor = .white
     }
     
@@ -19,18 +16,28 @@ class PokeDexCollectionView: UICollectionView {
 
 extension PokeDexCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        12
+        Dimensions.minimumSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        10
+        Dimensions.minimumSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 182, height: 134)
+        Dimensions.cardSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+        Dimensions.insets
+    }
+    
+    private struct Dimensions {
+        static var minimumSpacing: CGFloat = 10
+        static var marginHorizontal: CGFloat = 20
+        static var marginVertical: CGFloat = 10
+        static var cardWidth: CGFloat = (UIScreen.main.bounds.width - (marginHorizontal * 2 + minimumSpacing)) / 2
+        static var cardHeight: CGFloat = 134
+        static var cardSize = CGSize(width: cardWidth, height: cardHeight)
+        static var insets = UIEdgeInsets(top: marginVertical, left: marginHorizontal, bottom: marginVertical, right: marginHorizontal)
     }
 }

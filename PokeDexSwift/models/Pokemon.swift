@@ -12,7 +12,7 @@ struct Pokemon: Codable {
     }
     
     struct Types: Codable {
-        var type: PokemonType
+        var type: PokemonType?
 
         enum CodingKeys: String, CodingKey {
             case type

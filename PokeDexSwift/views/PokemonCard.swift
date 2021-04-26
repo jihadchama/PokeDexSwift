@@ -27,7 +27,6 @@ class PokemonCard: UIView {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .systemTeal
         label.layer.cornerRadius = 10
         label.sizeToFit()
         label.layer.masksToBounds = true
@@ -39,7 +38,6 @@ class PokemonCard: UIView {
         let label = UILabel()
         label.textColor = .white
         label.textAlignment = .center
-        label.backgroundColor = .systemPurple
         label.layer.cornerRadius = 10
         label.sizeToFit()
         label.layer.masksToBounds = true
@@ -49,7 +47,6 @@ class PokemonCard: UIView {
     
     lazy var pokemonImage: UIImageView = {
         let imageView = UIImageView()
-//        imageView.image = UIImage(named: "bulbasaur")
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
@@ -96,14 +93,12 @@ class PokemonCard: UIView {
         
         pokemonImage.snp.makeConstraints { make in
             make.width.height.equalTo(80)
-            make.bottom.equalToSuperview().inset(8)
-            make.right.equalToSuperview().inset(8)
+            make.bottom.right.equalToSuperview().inset(8)
         }
         
         backgroundPokeball.snp.makeConstraints { make in
             make.size.equalTo(130)
-            make.bottom.equalToSuperview().offset(24)
-            make.right.equalToSuperview().offset(24)
+            make.bottom.right.equalToSuperview().offset(24)
         }
     }
     
@@ -127,56 +122,58 @@ class PokemonCard: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render(_ pokemon: Pokemon) {
-        container.backgroundColor = setupBackgroundColor(pokemonType: pokemon.types[0].type)
-        
-        nameLabel.text = pokemon.name.capitalizingFirstLetter()
-        numberLabel.text = String(pokemon.id).setupPokedexNumber()
-        type1Label.text = pokemon.types[0].type.name.capitalizingFirstLetter()
-        type1Label.backgroundColor = setupTypeBackgroundColor(pokemonType: pokemon.types[0].type)
-        
-        if pokemon.types.count > 1 {
-            type2Label.text = pokemon.types[1].type.name.capitalizingFirstLetter()
-            type2Label.backgroundColor = setupTypeBackgroundColor(pokemonType: pokemon.types[1].type)
-        } else {
-            type2Label.isHidden = true
+    func render(_ pokemon: PokemonViewModel) {
+        guard let type1 = pokemon.type1 else {
+            fatalError("Pokemon must have at least one type.")
         }
         
         pokemonImage.load(url: URL(string: "https://pokeres.bastionbot.org/images/pokemon/\(pokemon.id).png")!)
+
+        container.backgroundColor = setupBackgroundColor(pokemonType: type1)
+        type1Label.text = type1.name.capitalizingFirstLetter()
+        type1Label.backgroundColor = setupTypeBackgroundColor(pokemonType: type1)
+        
+        if let type2 = pokemon.type2 {
+            type2Label.text = type2.name.capitalizingFirstLetter()
+            type2Label.backgroundColor = setupTypeBackgroundColor(pokemonType: type2)
+        }
+        
+        nameLabel.text = pokemon.name.capitalizingFirstLetter()
+        numberLabel.text = String(pokemon.id).setupPokedexNumber()
     }
     
     fileprivate func setupBackgroundColor(pokemonType: Pokemon.PokemonType) -> UIColor {
         switch pokemonType.name {
         case "bug":
-            return UIColor(red: 193/255, green: 217/255, blue: 183/255, alpha: 1)
+            return PokemonColors.bug.background
         case "grass":
-            return UIColor(red: 75/255, green: 208/255, blue: 176/255, alpha: 1)
+            return PokemonColors.grass.background
         case "water":
-            return UIColor(red: 117/255, green: 189/255, blue: 252/255, alpha: 1)
+            return PokemonColors.water.background
         case "ice":
-            return UIColor(red: 212/255, green: 241/255, blue: 244/255, alpha: 1)
+            return PokemonColors.ice.background
         case "ground":
-            return UIColor(red: 224/255, green: 216/255, blue: 190/255, alpha: 1)
+            return PokemonColors.ground.background
         case "ghost":
-            return UIColor(red: 130/255, green: 107/255, blue: 157/255, alpha: 1)
+            return PokemonColors.ghost.background
         case "fire":
-            return UIColor(red: 248/255, green: 108/255, blue: 107/255, alpha: 1)
+            return PokemonColors.fire.background
         case "electric":
-            return UIColor(red: 253/255, green: 216/255, blue: 110/255, alpha: 1)
+            return PokemonColors.electric.background
         case "normal":
-            return UIColor(red: 255/255, green: 229/255, blue: 180/255, alpha: 1)
+            return PokemonColors.normal.background
         case "fairy":
-            return UIColor(red: 251/255, green: 141/255, blue: 160/255, alpha: 1)
+            return PokemonColors.fairy.background
         case "rock":
-            return UIColor(red: 179/255, green: 169/255, blue: 169/255, alpha: 1)
+            return PokemonColors.rock.background
         case "fighting":
-            return UIColor(red: 253/255, green: 183/255, blue: 80/255, alpha: 1)
+            return PokemonColors.fighting.background
         case "dragon":
-            return UIColor(red: 88/255, green: 133/255, blue: 175/255, alpha: 1)
+            return PokemonColors.dragon.background
         case "psychic":
-            return UIColor(red: 249/255, green: 88/255, blue: 135/255, alpha: 1)
+            return PokemonColors.psychic.background
         case "poison":
-            return UIColor(red: 177/255, green: 117/255, blue: 255/255, alpha: 1)
+            return PokemonColors.poison.background
         default:
             return .black
         }
@@ -185,37 +182,37 @@ class PokemonCard: UIView {
     fileprivate func setupTypeBackgroundColor(pokemonType: Pokemon.PokemonType) -> UIColor {
         switch pokemonType.name {
         case "bug":
-            return UIColor(red: 186/255, green: 184/255, blue: 108/255, alpha: 1)
+            return PokemonColors.bug.type
         case "grass":
-            return .systemGreen
+            return PokemonColors.grass.type
         case "water":
-            return .systemBlue
+            return PokemonColors.water.type
         case "ice", "flying":
-            return UIColor(red: 137/255, green: 207/255, blue: 240/255, alpha: 1)
+            return PokemonColors.ice.type
         case "ground":
-            return UIColor(red: 210/255, green: 180/255, blue: 140/255, alpha: 1)
+            return PokemonColors.ground.type
         case "ghost":
-            return UIColor(red: 160/255, green: 32/255, blue: 240/255, alpha: 1)
+            return PokemonColors.ghost.type
         case "fire":
-            return .systemRed
+            return PokemonColors.fire.type
         case "electric":
-            return .systemYellow
+            return PokemonColors.electric.type
         case "normal":
-            return UIColor(red: 255/255, green: 165/255, blue: 0/255, alpha: 1)
+            return PokemonColors.normal.type
         case "fairy":
-            return UIColor(red: 255/255, green: 192/255, blue: 203/255, alpha: 1)
+            return PokemonColors.fairy.type
         case "rock":
-            return .systemGray
+            return PokemonColors.rock.type
         case "fighting":
-            return .systemOrange
+            return PokemonColors.fighting.type
         case "dragon":
-            return .systemIndigo
+            return PokemonColors.dragon.type
         case "psychic":
-            return UIColor(red: 255/255, green: 105/255, blue: 180/255, alpha: 1)
+            return PokemonColors.psychic.type
         case "poison":
-            return .systemPurple
+            return PokemonColors.poison.type
         case "steel":
-            return .systemGray5
+            return PokemonColors.steel.type
         default:
             return .black
         }

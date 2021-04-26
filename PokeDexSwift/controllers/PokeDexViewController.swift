@@ -11,7 +11,7 @@ class PokeDexViewController: UIViewController, UICollectionViewDataSource {
         setupCollectionView()
         collectionView.dataSource = self
         bindViewModel()
-        viewModel.fetchSortedData()
+        viewModel.fetchAndSortPokemons()
     }
     
     func bindViewModel() {
@@ -19,7 +19,7 @@ class PokeDexViewController: UIViewController, UICollectionViewDataSource {
             .sink { [weak self] pokemons in
                 self?.collectionView.reloadData()
             }.store(in: &cancellables)
-        }
+    }
     
     func setupCollectionView() {
         collectionView = PokeDexCollectionView()
@@ -27,12 +27,13 @@ class PokeDexViewController: UIViewController, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.pokemons.count
+        viewModel.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PokemonListCollectionViewCell.identifier, for: indexPath) as! PokemonListCollectionViewCell
-        cell.render(pokemon: viewModel.pokemons[indexPath.item])
+        let cell: PokemonListCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath) 
+        let pokemonViewModel = viewModel.pokemonAtIndex(indexPath.item)
+        cell.render(pokemon: pokemonViewModel)
         return cell
     }
 }
