@@ -174,6 +174,12 @@ class PokemonCard: UIView {
             return PokemonColors.psychic.background
         case "poison":
             return PokemonColors.poison.background
+        case "dark":
+            return PokemonColors.dark.background
+        case "steel":
+            return PokemonColors.steel.background
+        case "flying":
+            return PokemonColors.flying.background
         default:
             return .black
         }
@@ -187,7 +193,7 @@ class PokemonCard: UIView {
             return PokemonColors.grass.type
         case "water":
             return PokemonColors.water.type
-        case "ice", "flying":
+        case "ice":
             return PokemonColors.ice.type
         case "ground":
             return PokemonColors.ground.type
@@ -213,6 +219,10 @@ class PokemonCard: UIView {
             return PokemonColors.poison.type
         case "steel":
             return PokemonColors.steel.type
+        case "dark":
+            return PokemonColors.dark.type
+        case "flying":
+            return PokemonColors.flying.type
         default:
             return .black
         }

@@ -2,12 +2,12 @@ import Alamofire
 import Foundation
 
 struct PokeAPIURL {
-    static let pokemonListURL = "https://pokeapi.co/api/v2/pokemon?limit=151"
+    static let pokemonListURL = "https://pokeapi.co/api/v2/pokemon"
 }
 
-class PokeDexClient {    
-    func requestPokeDex(success: @escaping (PokeDex) -> Void) {
-        AF.request(PokeAPIURL.pokemonListURL)
+class PokeDexClient {
+    func requestPokeDex(url: String, success: @escaping (PokeDex) -> Void) {
+        AF.request(url)
             .validate()
             .responseDecodable(of: PokeDex.self) { response in
                 if let value = response.value {

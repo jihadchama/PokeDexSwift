@@ -2,9 +2,11 @@ import Foundation
 
 struct PokeDex: Codable {
     var results: [PokemonList]
+    var next: String
     
     enum CodingKeys: String, CodingKey {
         case results
+        case next
     }
 
     struct PokemonList: Codable {
