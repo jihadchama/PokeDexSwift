@@ -28,4 +28,8 @@ struct PokemonViewModel {
     var imageURL: String {
         "https://pokeres.bastionbot.org/images/pokemon/\(pokemon.id).png"
     }
+    
+    var stats: [Stats] {
+        pokemon.stats
+    }
 }

@@ -1,7 +1,21 @@
 import SnapKit
 import UIKit
 
+protocol PokemonCardDelegate: class {
+    func dismiss()
+}
+
 class PokemonCard: UIView {
+    weak var delegate: PokemonCardDelegate?
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(didTappedBackButton), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
         label.textColor = .white
@@ -41,14 +55,17 @@ class PokemonCard: UIView {
         return imageView
     }()
     
-    private lazy var infoContainter: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 40
-        view.backgroundColor = .white
-        return view
+    private lazy var infoContainter: PokemonInfoContainer = {
+        let container = PokemonInfoContainer()
+        return container
     }()
     
+    @objc private func didTappedBackButton() {
+        delegate?.dismiss()
+    }
+    
     private func addSubviews() {
+        addSubview(backButton)
         addSubview(titleLabel)
         addSubview(numberLabel)
         addSubview(type1Label)
@@ -59,8 +76,13 @@ class PokemonCard: UIView {
     }
     
     private func setupConstraints() {
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.equalToSuperview().offset(30)
+        }
+        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(80)
+            make.top.equalTo(backButton.snp.bottom).offset(30)
             make.leading.equalToSuperview().offset(30)
         }
         
@@ -79,7 +101,7 @@ class PokemonCard: UIView {
         }
         
         numberLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(100)
+            make.top.equalTo(titleLabel.snp.bottom)
             make.trailing.equalToSuperview().inset(30)
         }
         
@@ -104,6 +126,8 @@ class PokemonCard: UIView {
     
     func render(_ pokemon: PokemonViewModel) {
         guard let type1 = pokemon.type1 else { return }
+        
+        infoContainter.render(stats: pokemon.stats)
         
         type1Label.render(type1)
         

@@ -33,7 +33,7 @@ struct PokemonColors {
     static var normal = Colors(type: UIColor(red: 230, green: 200, blue: 140),
                                background: UIColor(red: 255, green: 229, blue: 180))
     
-    static var fairy = Colors(type: UIColor(red: 255, green: 192, blue: 203),
+    static var fairy = Colors(type: UIColor(red: 240, green: 128, blue: 128),
                               background: UIColor(red: 251, green: 141, blue: 160))
     
     static var rock = Colors(type: .systemGray,

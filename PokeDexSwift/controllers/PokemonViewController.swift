@@ -1,6 +1,6 @@
 import UIKit
 
-class PokemonViewController: UIViewController {
+class PokemonViewController: UIViewController, PokemonCardDelegate {
     private let pokemonCard = PokemonCard(frame: UIScreen.main.bounds)
     private var pokemon: PokemonViewModel
     
@@ -17,6 +17,11 @@ class PokemonViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .red
         view.addSubview(pokemonCard)
+        pokemonCard.delegate = self
         pokemonCard.render(pokemon)
+    }
+    
+    func dismiss() {
+        super.dismiss(animated: true)
     }
 }

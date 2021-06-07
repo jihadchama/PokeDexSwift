@@ -47,24 +47,24 @@ extension PokeDexViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        Dimensions.minimumSpacing
+        PokeDexDimensions.minimumSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        Dimensions.minimumSpacing
+        PokeDexDimensions.minimumSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        Dimensions.cardSize
+        PokeDexDimensions.cardSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        Dimensions.insets
+        PokeDexDimensions.insets
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y
-        let cellHeight = Dimensions.cardSize.height
+        let cellHeight = PokeDexDimensions.cardSize.height
         let contentHeight = scrollView.contentSize.height
         let screenHeight = scrollView.frame.size.height
         
@@ -76,6 +76,7 @@ extension PokeDexViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let pokemonViewController = PokemonViewController(pokemon: viewModel.pokemonAtIndex(indexPath.row))
+        pokemonViewController.modalPresentationStyle = .fullScreen
         present(pokemonViewController, animated: true)
     }
 }

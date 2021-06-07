@@ -1,6 +1,6 @@
 import UIKit
 
-struct Dimensions {
+struct PokeDexDimensions {
     static var minimumSpacing: CGFloat = 10
     static var marginHorizontal: CGFloat = 20
     static var marginVertical: CGFloat = 10
