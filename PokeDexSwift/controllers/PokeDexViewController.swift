@@ -14,7 +14,7 @@ class PokeDexViewController: UIViewController {
         viewModel.requestPokeDex()
     }
     
-    func bindViewModel() {
+    private func bindViewModel() {
         viewModel.$pokemons
             .sink { [weak self] pokemons in
                 self?.collectionView.reloadData()
@@ -22,7 +22,7 @@ class PokeDexViewController: UIViewController {
             }.store(in: &cancellables)
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(cellType: PokemonListCollectionViewCell.self)
         collectionView.backgroundColor = .white
@@ -31,6 +31,8 @@ class PokeDexViewController: UIViewController {
         view.addSubview(collectionView)
     }
 }
+
+// MARK: UICollectionView Protocols
 
 extension PokeDexViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -72,13 +74,8 @@ extension PokeDexViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
     
-    private struct Dimensions {
-        static var minimumSpacing: CGFloat = 10
-        static var marginHorizontal: CGFloat = 20
-        static var marginVertical: CGFloat = 10
-        static var cardWidth: CGFloat = (UIScreen.main.bounds.width - (marginHorizontal * 2 + minimumSpacing)) / 2
-        static var cardHeight: CGFloat = 134
-        static var cardSize = CGSize(width: cardWidth, height: cardHeight)
-        static var insets = UIEdgeInsets(top: marginVertical, left: marginHorizontal, bottom: marginVertical, right: marginHorizontal)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let pokemonViewController = PokemonViewController(pokemon: viewModel.pokemonAtIndex(indexPath.row))
+        present(pokemonViewController, animated: true)
     }
 }

@@ -3,9 +3,9 @@ import UIKit
 
 class PokemonListCollectionViewCell: UICollectionViewCell, Reusable {
     func render(pokemon: PokemonViewModel) {
-        let pokemonCard = PokemonCard(frame: contentView.bounds)
-        pokemonCard.render(pokemon)
-        contentView.addSubview(pokemonCard)
+        let pokedexCard = PokedexCard(frame: contentView.bounds)
+        pokedexCard.render(pokemon)
+        contentView.addSubview(pokedexCard)
     }
     
     override func prepareForReuse() {
