@@ -1,11 +1,15 @@
 import UIKit
 
 class PokemonViewController: UIViewController, PokemonCardDelegate {
-    private let pokemonCard = PokemonCard(frame: UIScreen.main.bounds)
-    private var pokemon: PokemonViewModel
+    private var pokemonViewModel: PokemonViewModel
+    private let pokemonCard: PokemonCard
     
     init(pokemon: PokemonViewModel) {
-        self.pokemon = pokemon
+        pokemonViewModel = pokemon
+        
+        pokemonCard = PokemonCard(frame: UIScreen.main.bounds,
+                                  viewModel: pokemonViewModel)
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -18,7 +22,7 @@ class PokemonViewController: UIViewController, PokemonCardDelegate {
         view.backgroundColor = .red
         view.addSubview(pokemonCard)
         pokemonCard.delegate = self
-        pokemonCard.render(pokemon)
+        pokemonCard.render(pokemonViewModel)
     }
     
     func dismiss() {

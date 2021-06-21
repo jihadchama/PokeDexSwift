@@ -7,12 +7,21 @@ protocol PokemonCardDelegate: class {
 
 class PokemonCard: UIView {
     weak var delegate: PokemonCardDelegate?
+    private var viewModel: PokemonViewModel
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "arrow.left"), for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(didTappedBackButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var favButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(didTappedFavButton), for: .touchUpInside)
         return button
     }()
     
@@ -64,8 +73,18 @@ class PokemonCard: UIView {
         delegate?.dismiss()
     }
     
+    @objc private func didTappedFavButton() {
+        viewModel.favorited = !viewModel.favorited
+        if viewModel.favorited {
+            setFav()
+        } else {
+            setUnfav()
+        }
+    }
+    
     private func addSubviews() {
         addSubview(backButton)
+        addSubview(favButton)
         addSubview(titleLabel)
         addSubview(numberLabel)
         addSubview(type1Label)
@@ -77,8 +96,13 @@ class PokemonCard: UIView {
     
     private func setupConstraints() {
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide).offset(50)
             make.leading.equalToSuperview().offset(30)
+        }
+        
+        favButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).offset(50)
+            make.trailing.equalToSuperview().inset(30)
         }
         
         titleLabel.snp.makeConstraints { make in
@@ -113,7 +137,8 @@ class PokemonCard: UIView {
         
         infoContainter.snp.makeConstraints { make in
             make.top.equalTo(pokemonImage.snp.bottom).inset(30)
-            make.leading.bottom.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(30)
         }
         
         pokemonImage.snp.makeConstraints { make in
@@ -143,7 +168,22 @@ class PokemonCard: UIView {
         backgroundColor = SetupColors.setupBackgroundColor(pokemonType: type1)
     }
     
-    override init(frame: CGRect) {
+    private func setFav() {
+        DispatchQueue.main.async {
+            self.favButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            self.favButton.tintColor = .systemRed
+        }
+    }
+    
+    private func setUnfav() {
+        DispatchQueue.main.async {
+            self.favButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            self.favButton.tintColor = .white
+        }
+    }
+    
+    init(frame: CGRect, viewModel: PokemonViewModel) {
+        self.viewModel = viewModel
         super.init(frame: frame)
         addSubviews()
         setupConstraints()

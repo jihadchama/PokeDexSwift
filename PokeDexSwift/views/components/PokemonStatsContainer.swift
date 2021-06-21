@@ -4,6 +4,7 @@ import UIKit
 class PokemonStatsContainer: UIView {
     private lazy var baseStatsLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.text = "Base Stats"
         return label
@@ -16,33 +17,33 @@ class PokemonStatsContainer: UIView {
         return view
     }()
     
-    private lazy var hpContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var hpContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
-    private lazy var attackContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var attackContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
-    private lazy var defenseContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var defenseContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
-    private lazy var spAttackContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var spAttackContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
-    private lazy var spDefenseContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var spDefenseContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
-    private lazy var speedContainer: StatsContainer = {
-        let container = StatsContainer()
+    private lazy var speedContainer: StatsGraph = {
+        let container = StatsGraph()
         return container
     }()
     
@@ -64,14 +65,14 @@ class PokemonStatsContainer: UIView {
         }
         
         lineView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
-            make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(baseStatsLabel.snp.bottom).offset(20)
+            make.leading.equalToSuperview().offset(30)
+            make.trailing.equalToSuperview().inset(30)
+            make.top.equalTo(baseStatsLabel.snp.bottom).offset(10)
             make.height.equalTo(3)
         }
         
         hpContainer.snp.makeConstraints { make in
-            make.top.equalTo(baseStatsLabel.snp.bottom)
+            make.top.equalTo(lineView.snp.bottom).offset(30)
             make.width.equalToSuperview()
         }
         

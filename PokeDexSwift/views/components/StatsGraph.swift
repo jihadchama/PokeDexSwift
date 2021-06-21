@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class StatsContainer: UIView {
+class StatsGraph: UIView {
     private lazy var statsTitle: UILabel = {
         let label = UILabel()
         label.textColor = .gray
@@ -11,6 +11,7 @@ class StatsContainer: UIView {
     
     private lazy var statsValue: UILabel = {
         let label = UILabel()
+        label.textColor = .black
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         return label
     }()
@@ -38,7 +39,7 @@ class StatsContainer: UIView {
     
     private func setupConstraints() {
         statsTitle.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(60)
+            make.top.equalToSuperview()
             make.leading.equalToSuperview().offset(30)
             make.width.greaterThanOrEqualTo(70)
         }
@@ -74,9 +75,11 @@ class StatsContainer: UIView {
         renderStatusGraph(value: Double(value))
         
         switch value {
-        case 0..<80:
+        case 0..<50:
             statsForeground.backgroundColor = .systemRed
-        case 80..<120:
+        case 50..<80:
+            statsForeground.backgroundColor = .systemOrange
+        case 80..<150:
             statsForeground.backgroundColor = .systemGreen
         case 120...:
             statsForeground.backgroundColor = .systemBlue

@@ -92,11 +92,11 @@ class PokedexCard: UIView {
     
     private func addSubviews() {
         addSubview(container)
+        container.addSubview(backgroundPokeball)
         container.addSubview(numberLabel)
         container.addSubview(nameLabel)
         container.addSubview(type1Label)
         container.addSubview(type2Label)
-        container.addSubview(backgroundPokeball)
         container.addSubview(pokemonImage)
     }
     
