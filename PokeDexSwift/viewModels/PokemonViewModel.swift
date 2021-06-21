@@ -1,8 +1,6 @@
 struct PokemonViewModel {
     private let pokemon: Pokemon
     
-    var favorited: Bool = false
-    
     init(_ pokemon: Pokemon) {
         self.pokemon = pokemon
     }
