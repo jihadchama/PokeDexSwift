@@ -1,11 +1,10 @@
-import SnapKit
 import UIKit
 
 protocol PokemonCardDelegate: class {
     func dismiss()
 }
 
-class PokemonCard: UIView {
+class PokemonCard: UIView, ViewCode {
     weak var delegate: PokemonCardDelegate?
     private var viewModel: PokemonViewModel
     
@@ -65,7 +64,7 @@ class PokemonCard: UIView {
         delegate?.dismiss()
     }
     
-    private func addSubviews() {
+    func addSubviews() {
         addSubview(backButton)
         addSubview(titleLabel)
         addSubview(numberLabel)
@@ -76,7 +75,7 @@ class PokemonCard: UIView {
         addSubview(pokemonImage)
     }
     
-    private func setupConstraints() {
+    func setupConstraints() {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(50)
             make.leading.equalToSuperview().offset(30)
@@ -148,8 +147,7 @@ class PokemonCard: UIView {
     init(frame: CGRect, viewModel: PokemonViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
-        addSubviews()
-        setupConstraints()
+        setupView()
     }
     
     required init?(coder: NSCoder) {

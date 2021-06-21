@@ -1,7 +1,6 @@
-import SnapKit
 import UIKit
 
-class PokedexCard: UIView {
+class PokedexCard: UIView, ViewCode {
     private lazy var container: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 12
@@ -50,7 +49,7 @@ class PokedexCard: UIView {
         return imageView
     }()
     
-    private func setupConstraints() {
+    func setupConstraints() {
         container.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -90,7 +89,7 @@ class PokedexCard: UIView {
         }
     }
     
-    private func addSubviews() {
+    func addSubviews() {
         addSubview(container)
         container.addSubview(backgroundPokeball)
         container.addSubview(numberLabel)
@@ -100,17 +99,9 @@ class PokedexCard: UIView {
         container.addSubview(pokemonImage)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubviews()
-        setupConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     func render(_ pokemon: PokemonViewModel) {
+        setupView()
+        
         guard let type1 = pokemon.type1 else {
             fatalError("Pokemon must have at least one type.")
         }
